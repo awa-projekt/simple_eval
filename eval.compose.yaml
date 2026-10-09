@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=./eval.schema.json
+version: 1
+name: general-agent-service
+
+targets:
+  - name: general-agent-service
+    kind: compose
+    file: docker-compose.eval.yaml
+    endpoint:
+      service: agent
+      port: 8080
+      path: /chat
+      method: POST
+      body:
+        prompt: "{{ input }}"
+        category: "{{ metadata.category }}"
+      output_pointer: /answer
+    health:
+      path: /health
+      timeout_s: 60
+
+dataset:
+  kind: csv
+  path: data.csv
+  task_id_col: id
+  input_col: question
+  expected_col: expected_answer
+
+graders:
+  - uses: contains_expected
+
+run:
+  trials: 3
+  max_concurrency: 8
+
+env_passthrough: [OPENAI_API_KEY]

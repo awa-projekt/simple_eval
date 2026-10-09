@@ -1,0 +1,37 @@
+[project]
+name = "simple-eval"
+version = "0.1.0"
+description = "A reproducible eval harness for LLM systems, built on Pydantic Evals"
+readme = "README.md"
+requires-python = ">=3.13"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "awa-projekt", email = "info@ancud.de" }]
+dependencies = [
+    "httpx>=0.28.1",
+    "jinja2>=3.1.6",
+    "jsonpointer>=3.1.1",
+    "pydantic-ai>=1.62.0",
+    "pydantic-evals>=1.62.0",
+    "python-dotenv>=1.2.1",
+    "pyyaml>=6.0",
+    "rich>=14.1.0",
+    "typer>=0.17.4",
+]
+
+[project.urls]
+Repository = "https://github.com/awa-projekt/simple_eval"
+
+[project.scripts]
+simple-eval = "simple_eval.main:main"
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["simple_eval*"]

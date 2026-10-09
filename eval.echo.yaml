@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=./eval.schema.json
+# Runs offline with no API key: a canned-answer target over data.csv.
+version: 1
+name: echo-agent
+
+targets:
+  - name: echo-agent
+    kind: python
+    entrypoint: examples.echo_agent:canned_agent
+
+dataset:
+  kind: csv
+  path: data.csv
+  task_id_col: id
+  input_col: question
+  expected_col: expected_answer
+
+graders:
+  - uses: exact_match
+  - uses: contains_expected
+
+pythonpath: [src]

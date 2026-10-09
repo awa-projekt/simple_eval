@@ -1,0 +1,13 @@
+services:
+  agent:
+    build: ./src/examples/service
+    ports:
+      - "8080"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?set OPENAI_API_KEY}
+      SIMPLE_EVAL_EXAMPLE_MODEL: ${SIMPLE_EVAL_EXAMPLE_MODEL:-openai:gpt-5-mini}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
